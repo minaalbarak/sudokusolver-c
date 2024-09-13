@@ -1,0 +1,77 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{lipsum}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{COMPSCI 1XC3 - Assignment 2}
+\author{Mina Al-Barak (ID: 400513160)}
+
+\begin{document}
+\maketitle
+
+\chapter{Report Details}
+\section{Program Description}
+For Assignment 2, I designed a program that solves a hard-coded Sudoku puzzle, displays the solution, and states the number of iterations taken to solve the puzzle. This is achievable by utilizing various C programming methods, such as logical and comparison operators, nested loops, and functions.   
+
+\section{Program Details}
+
+\subsection{void print(int grid[N][N]) function}
+This function prints the Sudoku grid out. It is void type function because it does not return any values. The function is made of a nested loop, where the outer loop is controlled by variable i and the inner loop is controlled by variable j. We have initialized the loop at i = 0, with a condition for i to be less than N=9 which is the grid size 9x9, and an increment of 1. We say less than 9 because we are working with a zero-index, so we start at 0 and go up to 8 inclusive. I had to put down a horizontal divider between every 3 rows, so I set up a conditional statement if to make sure a divider is placed at every multiple of 3, 0 not inclusive. For that, I used comparison operator == as well as !=, and logical operator \&\&. This makes sure that i is a multiple of 3 as it has no remainder by division of 3, and i cannot equal to 0, and that both of these conditions are met. Then I want to set a vertical divider; to achieve this, we set an inner loop variable j, and it has to meet the same exact conditions as i. Then I make it print the grid and put placeholders for each cell, so it can later input solutions for each cell into those placeholders.
+
+\centerline{Figure \ref{fig:function1} shows the first function described above.}
+  \begin{center}
+  \includegraphics[scale=0.8]{function1.png}
+  \label{fig:function1}
+  \end{center}
+  
+\subsection{int isSafe(int grid[N][N], int row, int col, int num) function}
+
+This function checks where a number can be inputted, ie. where an empty cell is to solve the puzzle. So, I call for the parameters which are the row number, column number, and the specific number I'm trying to place in the puzzle. We start this function with a loop, so we reiterate through every number from 1 to 9, through every cell in every row and column. Now to get in depth, we read the function line for line. As stated, the first line is a loop, initialized at 0 with a condition for x to be less than N=9, and an increment of 1. The if conditional statement says that if at any row, x is equal to the number we are trying to put down ie. num, or if at any  column, x is equal to num, we cannot put this number down. In Boolean terms, we express this with a 0, so the function returns a 0. 
+
+Then, I made a part that scans subgrids, the 3x3 boxes within the puzzle that also can't have repeat numbers. For this, I began by making a calculation that determines the subgrid being read. Then using nested loops, the function reads every cell in the subgrid, such that it returns a 0 if num is found in any cell. This works by deducing the sum of the index and the subgrid row/column number, as to read cell by cell without exceeding 3 cells (since a subgrid is 3x3). Otherwise, return 1 where it is safe to place a number.
+
+\centerline{Figure \ref{fig:function2} shows the second function described above.}
+  \begin{center}
+  \includegraphics[scale=0.8]{function2.png}
+  \label{fig:function2}
+  \end{center}
+
+\subsection{int solveSudoku(int grid[N][N], int *count) function}
+This function solves the Sudoku puzzle. It utilizes a pointer to count the number of iterations that the function passes through to solve the puzzle. I used a pointer instead of an increment loop because I noticed that the pointer eliminated the issue of passing by reference. Because count needs to retain its value over recursive calls, I need to utilize a pointer so the function can directly modify the original variable in memory and not just a copy of it. Moving on, I declared the variable emptyCell that tracks where empty cells are. The function flags them as it runs. Then, I started a loop that runs through the rows and columns of the puzzle. The following nested loop determines what numbers are placed inside empty cells; it runs values 1 through 9 into each empty cell. If a solution is found, it returns Boolean value 1, otherwise it returns 0 which indicates the function must backtrack and try inputting a different number. In a similar fashion, if the outer loop does not find a solution, it also backtracks, indicating no solution can be found. 
+
+\centerline{Figure \ref{fig:function3} shows the third function described above.}
+  \begin{center}
+  \includegraphics[scale=0.8]{function3.png}
+  \label{fig:function3}
+  \end{center}
+
+\subsection{Main function}
+The main function is made up of the hard-coded puzzle provided by the assignment outline. It initializes the iteration count to 0. Then, it prints the puzzle, as well as the iteration count if a solution was found, or states that no solutions exist if so. 
+
+\centerline{Figure \ref{fig:function4} shows the second function described above.}
+  \begin{center}
+  \includegraphics[scale=0.8]{function4.png}
+  \label{fig:function4}
+  \end{center}
+
+\subsection{Output}
+\centerline{Figure \ref{fig:output} shows the code output when run on MacOS.}
+  \begin{center}
+  \includegraphics[scale=0.8]{output.png}
+  \label{fig:output}
+  \end{center}
+
+\section{Sources}
+I used a combination of Prof. Pasandide's lecture notes, sections 2.6 and 3.4, as well as ChatGPT to help me determine how to code how the functions read rows and columns of the grid, as well as interpreting Boolean values. 
+
+\end{document}
